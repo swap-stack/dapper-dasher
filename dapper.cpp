@@ -12,6 +12,7 @@ int main()
     // initialize the window
     InitWindow(windowWidth, windowHeight, "Dapper Dasher!");
 
+    // velocity of scarfy
     int velocity{0};
 
     // jump velocity pixel per second
@@ -29,37 +30,32 @@ int main()
     scarfyRec.width = scarfy.width/6;
     scarfyRec.height = scarfy.height;
     scarfyRec.x = 0;
-    scarfyRec.y = 0;
-    
+    scarfyRec.y = 0;    
     Vector2 scarfyPos;
     scarfyPos.x =windowWidth/2 - scarfyRec.width/2;
     scarfyPos.y = windowHeight - scarfyRec.height;
 
-
     // animation frame
     int frame{0};
 
-
-    // is the rectangle in the air
+    // is scarfy in the air
     bool isInAir{false};
 
-    // how much shoudl be the time between animation update
+    // time between animation update
     const float updateTime{1.0/2.0};
     
-    
-    // we know how much time has passed since last update time
+    // time passed since last update time
     float runningTime{0};
-
-
 
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
-
         // start drawing
         BeginDrawing();
         ClearBackground(WHITE);
+     
+        // delta time
         const float dT{GetFrameTime()};
 
         if (scarfyPos.y >= windowHeight - scarfy.height)
@@ -73,6 +69,7 @@ int main()
             isInAir = true;
         }
 
+        // if space is pressed jump
         if (IsKeyDown(KEY_SPACE) && isInAir == false)
         {
             velocity += jumpVel;
@@ -82,7 +79,6 @@ int main()
         
         // update running time
         runningTime += runningTime + dT;
-
 
         if (runningTime >= updateTime){
 
@@ -95,14 +91,14 @@ int main()
                 frame = 0;
             }
         }
-
+        // draw scarfy
         DrawTextureRec(scarfy, scarfyRec, scarfyPos, WHITE);
 
         // stop drawing
         EndDrawing();
     }
+ 
     UnloadTexture(scarfy);
     UnloadTexture(nebula);
- 
     CloseWindow();
 }
